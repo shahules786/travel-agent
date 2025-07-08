@@ -1,5 +1,3 @@
-
-import os
 from pathlib import Path
 
 from openai import AsyncOpenAI
@@ -15,18 +13,21 @@ try:
 except ImportError:
     pass
 
-client = AsyncOpenAI(max_retries=3)
-
-
 prompt_file = Path(__file__).parent / "prompt.txt"
 with open(prompt_file, "r") as file:
     SYSTEM_PROMPT = file.read()
 
+client = AsyncOpenAI(max_retries=3)
+model = OpenAIModel("gpt-4o", provider=OpenAIProvider(openai_client=client))
+agent = Agent(model=model, system_prompt=SYSTEM_PROMPT)
+
+
 
 class TravelAgent:
-    def __init__(self, model="gpt-4o"):
-        model = OpenAIModel(model, provider=OpenAIProvider(openai_client=client))
-        self.agent = Agent(model=model, system_prompt=SYSTEM_PROMPT)
+    def __init__(self, model_name=None):
+        self.agent = agent
+        if model_name:
+            self.agent.model._model_name = model_name
 
     def run(self, query: str):
         response = self.agent.run_sync(query)
