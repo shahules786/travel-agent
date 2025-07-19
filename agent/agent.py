@@ -6,6 +6,12 @@ from pydantic_ai import Agent
 from pydantic_ai.models.openai import OpenAIModel
 from pydantic_ai.providers.openai import OpenAIProvider
 from agent.tracer import covert_to_trace
+import logfire
+import os
+
+logfire.configure(token=os.environ.get("LOGFIRE_TOKEN"))  
+logfire.instrument_asyncpg()
+
 
 try:
     from dotenv import load_dotenv
@@ -19,7 +25,7 @@ with open(prompt_file, "r") as file:
 
 client = AsyncOpenAI(max_retries=3)
 model = OpenAIModel("gpt-4o", provider=OpenAIProvider(openai_client=client))
-agent = Agent(model=model, system_prompt=SYSTEM_PROMPT)
+agent = Agent(model=model, system_prompt=SYSTEM_PROMPT, instrument=True)
 
 
 
