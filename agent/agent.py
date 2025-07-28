@@ -25,4 +25,4 @@ class TravelAgent:
     def run(self, query: str, model: str = MODEL):
         
         response = self.agent.run_sync(query, model=model)
-        return response.output, covert_to_trace(response.all_messages())
+        return response.output, response.all_messages_json()
