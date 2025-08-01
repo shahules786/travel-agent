@@ -14,6 +14,9 @@ agent = Agent(system_prompt=SYSTEM_PROMPT, instrument=True)
 class TravelAgent:
     def __init__(self):
         self.agent = agent
+        # Register tools with the agent
+        from .tools import register_tools
+        register_tools(self.agent)
 
     def run(self, query: str, model: str = MODEL):
         
