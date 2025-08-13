@@ -3,14 +3,12 @@ import googlemaps
 import requests
 from datetime import datetime
 from typing import List, Dict, Any, Optional
-#from langchain_google_community import GoogleSearchAPIWrapper
+from langchain_google_community import GoogleSearchAPIWrapper
 from pydantic_ai import RunContext, Agent
 
 gmaps = googlemaps.Client(key=os.environ["GOOGLE_CLIENT_API_KEY"])
-#search_client = GoogleSearchAPIWrapper()
-from tavily import TavilyClient
+search_client = GoogleSearchAPIWrapper()
 
-tavily_client = TavilyClient(api_key=os.environ["TAVILY_API_KEY"])
 
 def register_tools(agent: Agent):
     """Register all tools with the given agent."""
@@ -169,11 +167,7 @@ def register_tools(agent: Agent):
         Returns:
             List of search results with title, link, and snippet
         """
-      
-        response = tavily_client.search(query)
-
-        print(response)
-        return response
+        return search_client.results(query, num_results=num_results)
 
     @agent.tool
     def validate_address(ctx: RunContext, addresses: List[str], region_code: str = 'US') -> Dict[str, Any]:

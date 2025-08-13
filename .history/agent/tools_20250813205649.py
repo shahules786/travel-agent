@@ -10,7 +10,7 @@ gmaps = googlemaps.Client(key=os.environ["GOOGLE_CLIENT_API_KEY"])
 #search_client = GoogleSearchAPIWrapper()
 from tavily import TavilyClient
 
-tavily_client = TavilyClient(api_key=os.environ["TAVILY_API_KEY"])
+tavily_client = TavilyClient(api_key="tvly-YOUR_API_KEY")
 
 def register_tools(agent: Agent):
     """Register all tools with the given agent."""
