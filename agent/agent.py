@@ -4,7 +4,7 @@ from pydantic_ai import Agent
 MODEL = 'openai:gpt-4o'
 
 prompt_file = Path(__file__).parent / "prompt.txt"
-with open(prompt_file, "r") as file:
+with open(prompt_file, "r", encoding="utf-8") as file:
     SYSTEM_PROMPT = file.read()
 
 agent = Agent(system_prompt=SYSTEM_PROMPT, instrument=True)
